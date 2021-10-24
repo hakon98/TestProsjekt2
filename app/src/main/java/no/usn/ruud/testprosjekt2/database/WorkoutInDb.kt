@@ -8,13 +8,13 @@ data class WorkoutInDb (
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    @ColumnInfo(name = "date yeah")
+    @ColumnInfo(name = "date")
     val date: Long = 0,
     @ColumnInfo(name = "1_exercise_type")
-    val type: String = "",
+    var type: String = "",
     @ColumnInfo(name = "1_exercise_reps")
     val reps: String = "",
     @ColumnInfo(name = "1_exercise_kg")
-    val kg: String = ""
-
+    val weight: String = ""
 )
+
