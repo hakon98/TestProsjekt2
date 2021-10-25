@@ -17,10 +17,11 @@ class HistoryListAdapter(private val context: Context, var workout: MutableLiveD
 
     private val mInflater: LayoutInflater
     private var mWorkout: WorkoutInDb? = null
-    private var mWorkoutList: List<WorkoutInDb>
+    private var mWorkoutList: List<WorkoutInDb>?
 
     init {
         mInflater = LayoutInflater.from(context)
+        mWorkoutList = workout.value //?: List<WorkoutInDb>()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -32,7 +33,7 @@ class HistoryListAdapter(private val context: Context, var workout: MutableLiveD
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        mWorkout = mWorkoutList.get(position)
+        mWorkout = mWorkoutList?.get(position)
         Log.i("HistoryListAdapter",mWorkoutList.toString())
         // koble textview id med database var
         holder.dayOfWeek.text = mWorkout.toString()
@@ -46,7 +47,7 @@ class HistoryListAdapter(private val context: Context, var workout: MutableLiveD
 
 
     override fun getItemCount(): Int {
-            return  mWorkoutList.size
+            return  mWorkoutList!!.size
     }
 
 
