@@ -13,23 +13,27 @@ import no.usn.ruud.testprosjekt2.database.WorkoutInDb
 class HistoryViewModel(val database: WorkoutDatabaseDao,
                        application: Application): AndroidViewModel(application) {
 
-    private lateinit var _workout : MutableLiveData<List<WorkoutInDb>>
+    private var _workout : MutableLiveData<List<WorkoutInDb>> = MutableLiveData<List<WorkoutInDb>>()
 
-    val workout : MutableLiveData<List<WorkoutInDb>>
-        get() = _workout
 
     init {
         initializeWorkoutList()
+        Log.i("HistoryViewModel", "init: ${_workout.value?.get(0)?.toString()} ")
     }
+    var workout : MutableLiveData<List<WorkoutInDb>> = _workout
+
 
     private fun initializeWorkoutList() {
         viewModelScope.launch {
-            _workout.value = getWorkoutFromDatabase()
+            Log.i("HistoryViewModel", "initWorkoutList kjørt")
+            _workout.setValue(getWorkoutFromDatabase())
+
+            Log.i("HistoryViewModel", "_workout: ${_workout.value.toString()}")
         }
     }
 
     private suspend fun getWorkoutFromDatabase(): List<WorkoutInDb> {
-        Log.i("DATABASE", "${database.getAll()}")
+        Log.i("HistoryViewModel", "${database.getAll()}")
         return database.getAll()
     }
 

@@ -1,6 +1,7 @@
 package no.usn.ruud.testprosjekt2.ui.record
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +62,7 @@ class RecordFragment : Fragment() {
             //workoutDatabaseDao.deleteAll()
             //workoutDatabaseDao.deleteAll()
             //Legg til eksempler på ord
+            Log.i("RecordFragment", "populateDatabase kjørt")
             var word = WorkoutInDb()
             word.type = "Benkpress"
             workoutDatabaseDao.insert(word)

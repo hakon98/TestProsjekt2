@@ -16,12 +16,13 @@ class HistoryListAdapter(private val context: Context, var workout: MutableLiveD
 {
 
     private val mInflater: LayoutInflater
-    private var mWorkout: WorkoutInDb? = null
-    private var mWorkoutList: List<WorkoutInDb>?
+    //private var mWorkout: WorkoutInDb? = null
+    //private var mWorkoutList: List<WorkoutInDb?>?
 
     init {
         mInflater = LayoutInflater.from(context)
-        mWorkoutList = workout.value //?: List<WorkoutInDb>()
+        //mWorkoutList = workout.value //?: List<WorkoutInDb>()
+        //Log.i("HistoryListAdapter", "init: ${ mWorkoutList.toString() }")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -33,27 +34,29 @@ class HistoryListAdapter(private val context: Context, var workout: MutableLiveD
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        mWorkout = mWorkoutList?.get(position)
-        Log.i("HistoryListAdapter",mWorkoutList.toString())
+        Log.i("HistoryListAdapter",workout.value.toString())
+        val mWorkout = workout.value!![position]
+        Log.i("HistoryListAdapter",mWorkout.toString())
         // koble textview id med database var
         holder.dayOfWeek.text = mWorkout.toString()
         if (mWorkout != null) {
-//            holder.date.text = mWorkout.date.toString()
-//            holder.exerciseType.text = mWorkout.type
-//            holder.exerciseReps.text = mWorkout.reps
-//            holder.exerciseWeight.text = mWorkout.weight
+            holder.date.text = mWorkout!!.date.toString()
+            holder.exerciseType.text = mWorkout!!.type
+            holder.exerciseReps.text = mWorkout!!.reps
+            holder.exerciseWeight.text = mWorkout!!.weight
         }
     }
 
-
     override fun getItemCount(): Int {
-            return  mWorkoutList!!.size
+            return  workout.value?.size ?: 0
+    }
+    /*
+    fun getHistoryListData(workout: MutableLiveData<List<WorkoutInDb>>) {
+        workout = workout
+        Log.i("HistoryListAdapter", "getHistoryList: ${workout.value?.get(1)?.toString()}")
     }
 
-
-
-
-
+     */
 
     inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
