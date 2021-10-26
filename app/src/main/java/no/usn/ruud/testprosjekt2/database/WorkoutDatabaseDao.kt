@@ -24,7 +24,7 @@ interface WorkoutDatabaseDao {
     @Query("SELECT * FROM workout_table WHERE id = :key")
     suspend fun getID(key: Long): WorkoutInDb?
     
-    @Query("DELETE FROM workout_table")
+    @Query("DELETE FROM sqlite_sequence where name='workout_table'")
     suspend fun clear()
 
     @Query("SELECT * FROM workout_table ORDER BY id ASC")

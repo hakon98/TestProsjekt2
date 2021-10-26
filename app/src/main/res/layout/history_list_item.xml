@@ -9,12 +9,14 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="16dp"
-        app:cardBackgroundColor="#850808"
-        app:cardCornerRadius="5dp"
+        android:layout_height="80dp"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        app:cardBackgroundColor="#6E6E6E"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:contentPadding="5dp"
         app:strokeColor="@color/colorPrimary">
 
 
@@ -40,7 +42,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Date" />
+                    android:text="Date"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
             </LinearLayout>
