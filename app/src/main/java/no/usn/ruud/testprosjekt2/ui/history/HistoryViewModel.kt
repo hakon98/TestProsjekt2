@@ -2,39 +2,43 @@ package no.usn.ruud.testprosjekt2.ui.history
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import no.usn.ruud.testprosjekt2.database.WorkoutDatabaseDao
 import no.usn.ruud.testprosjekt2.database.WorkoutInDb
+import java.lang.reflect.Array.get
 
-class HistoryViewModel(val database: WorkoutDatabaseDao,
-                       application: Application): AndroidViewModel(application) {
+class HistoryViewModel(dataSource: WorkoutDatabaseDao,
+                       application: Application): ViewModel() {
 
-    private var _workout : MutableLiveData<List<WorkoutInDb>> = MutableLiveData<List<WorkoutInDb>>()
+    //private lateinit var workout : MutableLiveData<List<WorkoutInDb>>
+    val database = dataSource
+
+    private var workout = MutableLiveData<WorkoutInDb?>()
+
+    val nights = database.getAll()
 
 
     init {
         initializeWorkoutList()
-        Log.i("HistoryViewModel", "init: ${_workout.value?.get(0)?.toString()} ")
+        //Log.i("HistoryViewModel", "init: ${_workout.value?.get(0)?.toString()} ")
     }
-    var workout : MutableLiveData<List<WorkoutInDb>> = _workout
+    //var workout : MutableLiveData<List<WorkoutInDb>> = MutableLiveData<List<WorkoutInDb>>()
 
 
     private fun initializeWorkoutList() {
         viewModelScope.launch {
             Log.i("HistoryViewModel", "initWorkoutList kjørt")
-            _workout.setValue(getWorkoutFromDatabase())
+            workout.value= getWorkoutFromDatabase()
 
-            Log.i("HistoryViewModel", "_workout: ${_workout.value.toString()}")
+            Log.i("HistoryViewModel", "_workout: ${workout.value.toString()}")
         }
     }
 
-    private suspend fun getWorkoutFromDatabase(): List<WorkoutInDb> {
-        Log.i("HistoryViewModel", "${database.getAll()}")
-        return database.getAll()
+    private suspend fun getWorkoutFromDatabase(): WorkoutInDb? {
+        var mWorkout = database.getLast()
+        Log.i("HistoryViewModel", "$mWorkout lista: ${database.getAll()}")
+        return mWorkout
     }
 
 

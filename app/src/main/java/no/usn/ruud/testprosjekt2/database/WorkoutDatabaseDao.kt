@@ -28,7 +28,7 @@ interface WorkoutDatabaseDao {
     suspend fun clear()
 
     @Query("SELECT * FROM workout_table ORDER BY id ASC")
-    suspend fun getAll():List<WorkoutInDb>
+    fun getAll():LiveData<List<WorkoutInDb>>
 
     @Query("SELECT * FROM workout_table ORDER BY id DESC LIMIT 1")
     suspend fun getLast(): WorkoutInDb

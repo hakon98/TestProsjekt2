@@ -54,13 +54,30 @@ class HistoryFragment : Fragment() {
             ViewModelProvider(this, historyViewModelFactory).get(HistoryViewModel::class.java)
       //  linLayoutMgr.setLayoutManager(new LinearLayoutManager(this));
         linLayoutMgr = LinearLayoutManager(context)
-        historyAdapter = HistoryListAdapter( mContext as Context, historyViewModel.workout)
-        historyViewModel.workout.observe(viewLifecycleOwner, Observer {
+        val historyAdapter = HistoryListAdapter()
+        binding.workoutHistoryRecylerView.adapter = historyAdapter
+        historyViewModel.nights.observe(viewLifecycleOwner,Observer {
+            it?.let {
+                historyAdapter.submitList(it)
+            }
+        })
+        /*
+        historyViewModel.workout.observe(viewLifecycleOwner, {
             Log.i("HistoryFragment", "viewModel observer: ${ historyViewModel.workout.value.toString() }")
             historyAdapter = HistoryListAdapter( mContext as Context, historyViewModel.workout)
             //(historyAdapter as HistoryListAdapter).getHistoryListData(historyViewModel.workout)
         })
+
+
+        historyViewModel.workout.observe(viewLifecycleOwner, {
+            //it = historyViewModel.workout.value
+            (historyAdapter as HistoryListAdapter).notifyDataSetChanged()
+        })
+
+
         Log.i("HistoryFragment", "viewModel initiert: ${ historyViewModel.workout.value.toString() }")
+
+         */
 
         historyRecyclerView = binding.workoutHistoryRecylerView.apply {
             setHasFixedSize(false)

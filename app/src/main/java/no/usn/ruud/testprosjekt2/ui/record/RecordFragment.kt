@@ -60,7 +60,7 @@ class RecordFragment : Fragment() {
         suspend fun populateDatabase(workoutDatabaseDao: WorkoutDatabaseDao) {
             // Delete all content here
             //workoutDatabaseDao.deleteAll()
-            //workoutDatabaseDao.deleteAll()
+
             //Legg til eksempler på ord
             Log.i("RecordFragment", "populateDatabase kjørt")
             var word = WorkoutInDb()

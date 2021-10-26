@@ -1,21 +1,29 @@
 package no.usn.ruud.testprosjekt2.ui.history
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import no.usn.ruud.testprosjekt2.R
 import no.usn.ruud.testprosjekt2.database.WorkoutInDb
+import no.usn.ruud.testprosjekt2.databinding.HistoryListItemBinding
 
-class HistoryListAdapter(private val context: Context, var workout: MutableLiveData<List<WorkoutInDb>>)
-    : RecyclerView.Adapter<HistoryListAdapter.HistoryViewHolder>()
+class HistoryListAdapter: ListAdapter<WorkoutInDb, HistoryListAdapter.HistoryViewHolder>(WorkoutInDbDiffCallback())
 {
+    class WorkoutInDbDiffCallback : DiffUtil.ItemCallback<WorkoutInDb>() {
+        override fun areItemsTheSame(oldItem: WorkoutInDb, newItem: WorkoutInDb): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-    private val mInflater: LayoutInflater
+        override fun areContentsTheSame(oldItem: WorkoutInDb, newItem: WorkoutInDb): Boolean {
+            return oldItem == newItem
+        }
+
+    }
+    /*
+    //private val mInflater: LayoutInflater
     //private var mWorkout: WorkoutInDb? = null
     //private var mWorkoutList: List<WorkoutInDb?>?
 
@@ -25,40 +33,43 @@ class HistoryListAdapter(private val context: Context, var workout: MutableLiveD
         //Log.i("HistoryListAdapter", "init: ${ mWorkoutList.toString() }")
     }
 
+     */
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
+        /*
         val myWorkoutItemLayout : Int = R.layout.history_list_item
-
         val myWorkoutItemView = mInflater.inflate(myWorkoutItemLayout, parent, false)
-
         return HistoryViewHolder(myWorkoutItemView)
+         */
+        return HistoryViewHolder.from(parent)
     }
 
-    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        Log.i("HistoryListAdapter",workout.value.toString())
-        val mWorkout = workout.value!![position]
+    override fun onBindViewHolder(holderHistory: HistoryViewHolder, position: Int) {
+        //Log.i("HistoryListAdapter",workout.value.toString())
+        val mWorkout = getItem(position)
         Log.i("HistoryListAdapter",mWorkout.toString())
         // koble textview id med database var
-        holder.dayOfWeek.text = mWorkout.toString()
+        holderHistory.dayOfWeek.text = mWorkout.toString()
         if (mWorkout != null) {
-            holder.date.text = mWorkout!!.date.toString()
-            holder.exerciseType.text = mWorkout!!.type
-            holder.exerciseReps.text = mWorkout!!.reps
-            holder.exerciseWeight.text = mWorkout!!.weight
+            holderHistory.date.text = mWorkout!!.date.toString()
+            holderHistory.exerciseType.text = mWorkout!!.type
+            holderHistory.exerciseReps.text = mWorkout!!.reps
+            holderHistory.exerciseWeight.text = mWorkout!!.weight
         }
     }
-
+    /*
     override fun getItemCount(): Int {
             return  workout.value?.size ?: 0
     }
-    /*
+
     fun getHistoryListData(workout: MutableLiveData<List<WorkoutInDb>>) {
-        workout = workout
+        this.workout = workout
         Log.i("HistoryListAdapter", "getHistoryList: ${workout.value?.get(1)?.toString()}")
     }
 
      */
 
-    inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class HistoryViewHolder(binding: HistoryListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         //private val workoutItemView: TextView = itemView.findViewById(R.id.textView)
         val dayOfWeek: TextView
@@ -68,11 +79,19 @@ class HistoryListAdapter(private val context: Context, var workout: MutableLiveD
         val exerciseWeight: TextView
 
         init {
-            dayOfWeek = itemView.findViewById<View>(R.id.text_day_of_week) as TextView
-            date = itemView.findViewById<View>(R.id.text_date) as TextView
-            exerciseType = itemView.findViewById<View>(R.id.text_exercise_type) as TextView
-            exerciseReps = itemView.findViewById<View>(R.id.text_exercise_reps) as TextView
-            exerciseWeight = itemView.findViewById<View>(R.id.text_exercise_weight) as TextView
+            dayOfWeek = binding.textDayOfWeek
+            date = binding.textDate
+            exerciseType = binding.textExerciseType
+            exerciseReps = binding.textExerciseReps
+            exerciseWeight = binding.textExerciseWeight
+        }
+        companion object {
+            fun from(parent: ViewGroup): HistoryViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = HistoryListItemBinding.inflate(layoutInflater, parent, false)
+
+                return HistoryViewHolder(binding)
+            }
         }
         /*
         fun bind(text: String?) {
