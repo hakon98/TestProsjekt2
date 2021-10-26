@@ -1,26 +1,24 @@
 package no.usn.ruud.testprosjekt2.database
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.firebase.ui.auth.data.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [WorkoutInDb::class], version = 1, exportSchema = false)
-abstract class WorkoutDatabase : RoomDatabase() {
+@Database(entities =  [WorkoutInDb::class, Exercise::class] , version = 3, exportSchema = false)
+abstract class FitGuuyDatabase : RoomDatabase() {
 
     abstract val workoutDatabaseDao: WorkoutDatabaseDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: WorkoutDatabase? = null
+        private var INSTANCE: FitGuuyDatabase? = null
 
-        fun getInstance(context: Context, scope: CoroutineScope): WorkoutDatabase {
+        fun getInstance(context: Context, scope: CoroutineScope): FitGuuyDatabase {
             synchronized(this) {
                 var instance = INSTANCE
 
@@ -28,8 +26,8 @@ abstract class WorkoutDatabase : RoomDatabase() {
 
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        WorkoutDatabase::class.java,
-                        "sleep_history_database"
+                        FitGuuyDatabase::class.java,
+                        "fitGuuy_database"
                     )
                         .addCallback(WorkoutDatabaseCallback(scope))
                         .fallbackToDestructiveMigration()
@@ -61,20 +59,20 @@ abstract class WorkoutDatabase : RoomDatabase() {
             suspend fun populateDatabase(workoutDatabaseDao: WorkoutDatabaseDao) {
                 // Delete all content here
                 //workoutDatabaseDao.deleteAll()
-                workoutDatabaseDao.deleteAll()
+                //workoutDatabaseDao.deleteAll()
                 //Legg til eksempler på ord
                 var word = WorkoutInDb( 0, 12, "", "", "")
                 workoutDatabaseDao.insert( word)
                 word =  WorkoutInDb( 1,  1234, "", "")
                 workoutDatabaseDao.insert( word)
                 word = WorkoutInDb()
-                word.type = "Benkpress"
+                word.type1 = "Benkpress"
                 workoutDatabaseDao.insert(word)
                 word = WorkoutInDb()
-                word.type = "Knebøy"
+                word.type2 = "Knebøy"
                 workoutDatabaseDao.insert(word)
                 word = WorkoutInDb()
-                word.type = "Markløft"
+                word.type3 = "Markløft"
                 workoutDatabaseDao.insert(word)
             }
 

@@ -75,9 +75,9 @@ class HistoryListAdapter: ListAdapter<WorkoutInDb, HistoryListAdapter.HistoryVie
         holderHistory.dayOfWeek.text = mWorkout.toString()
         if (mWorkout != null) {
             holderHistory.date.text = mWorkout!!.date.toString()
-            holderHistory.exerciseType.text = mWorkout!!.type
-            holderHistory.exerciseReps.text = mWorkout!!.reps
-            holderHistory.exerciseWeight.text = mWorkout!!.weight
+            holderHistory.exerciseType.text = mWorkout!!.type1
+            holderHistory.exerciseReps.text = mWorkout!!.reps1
+            holderHistory.exerciseWeight.text = mWorkout!!.weight1
         }
 
 

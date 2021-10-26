@@ -1,8 +1,6 @@
 package no.usn.ruud.testprosjekt2.ui.history
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import no.usn.ruud.testprosjekt2.database.WorkoutDatabase
+import no.usn.ruud.testprosjekt2.database.FitGuuyDatabase
 import no.usn.ruud.testprosjekt2.databinding.FragmentHistoryBinding
 
 class HistoryFragment : Fragment() {
@@ -21,7 +19,6 @@ class HistoryFragment : Fragment() {
     private lateinit var historyViewModelFactory: HistoryViewModelFactory
 
     private lateinit var linLayoutMgr: RecyclerView.LayoutManager
-    private lateinit var historyAdapter: RecyclerView.Adapter<*>
     private lateinit var historyRecyclerView: RecyclerView
     private var _binding: FragmentHistoryBinding? = null
 
@@ -46,7 +43,7 @@ class HistoryFragment : Fragment() {
         })
         */
         val application = requireNotNull(this.activity).application
-        val dataSource = WorkoutDatabase.getInstance(application, viewLifecycleOwner.lifecycleScope).workoutDatabaseDao
+        val dataSource = FitGuuyDatabase.getInstance(application, viewLifecycleOwner.lifecycleScope).workoutDatabaseDao
 
         historyViewModelFactory = HistoryViewModelFactory(dataSource, application)
         historyViewModel =

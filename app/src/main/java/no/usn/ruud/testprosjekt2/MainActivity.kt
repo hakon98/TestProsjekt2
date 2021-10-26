@@ -1,6 +1,8 @@
 package no.usn.ruud.testprosjekt2
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -33,5 +35,14 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+    fun decrementButton(view: View){
+        var btnView: Button = view as Button
+        var numberString: String = btnView.text as String
+        var numberOfReps : Int = numberString.toInt() -1
+        if(numberOfReps>=0){
+            btnView.text =numberOfReps.toString()
+            btnView.setBackgroundResource(R.drawable.roundbuttonselected)
+        }
     }
 }
