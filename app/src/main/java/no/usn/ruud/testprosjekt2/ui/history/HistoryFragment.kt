@@ -1,7 +1,6 @@
 package no.usn.ruud.testprosjekt2.ui.history
 
 import android.content.Context
-import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater

@@ -49,7 +49,9 @@ class RecordFragment : Fragment() {
         }
         dataSource.let { database ->
             scope.launch {
+                deleteAll(database)
                 populateDatabase(database)
+
             }
 
             return root
@@ -72,6 +74,11 @@ class RecordFragment : Fragment() {
             word = WorkoutInDb()
             word.type = "Markløft"
             workoutDatabaseDao.insert(word)
+        }
+
+        suspend fun deleteAll(workoutDatabaseDao: WorkoutDatabaseDao) {
+            workoutDatabaseDao.deleteAll()
+            workoutDatabaseDao.clear()
         }
     }
 

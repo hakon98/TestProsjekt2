@@ -1,12 +1,20 @@
 package no.usn.ruud.testprosjekt2.ui.history
 
+import android.app.ActivityOptions
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
+
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import no.usn.ruud.testprosjekt2.R
 import no.usn.ruud.testprosjekt2.database.WorkoutInDb
 import no.usn.ruud.testprosjekt2.databinding.HistoryListItemBinding
 
@@ -46,6 +54,21 @@ class HistoryListAdapter: ListAdapter<WorkoutInDb, HistoryListAdapter.HistoryVie
 
     override fun onBindViewHolder(holderHistory: HistoryViewHolder, position: Int) {
         //Log.i("HistoryListAdapter",workout.value.toString())
+
+        holderHistory.itemView.setOnClickListener {
+
+            val navController = R.id.nav_host_fragment_activity_main
+
+            holderHistory.itemView.transitionName = holderHistory.itemId.toString()
+
+            val extras = FragmentNavigatorExtras(holderHistory.itemView to  "transformation_text_day_of_the_week")
+
+            findNavController(holderHistory.itemView.findFragment()).navigate(
+                R.id.navigation_history_info, null, null, extras
+            )
+
+        }
+
         val mWorkout = getItem(position)
         Log.i("HistoryListAdapter",mWorkout.toString())
         // koble textview id med database var
@@ -56,7 +79,10 @@ class HistoryListAdapter: ListAdapter<WorkoutInDb, HistoryListAdapter.HistoryVie
             holderHistory.exerciseReps.text = mWorkout!!.reps
             holderHistory.exerciseWeight.text = mWorkout!!.weight
         }
+
+
     }
+
     /*
     override fun getItemCount(): Int {
             return  workout.value?.size ?: 0

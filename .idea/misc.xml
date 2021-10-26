@@ -3,14 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Johannes D Halvorsen/OneDrive - USN/USN/MOB3000/AndroidStudioProjects/TestProsjekt2/app/src/main/res/layout/activity_main.xml" value="0.2223731884057971" />
-        <entry key="..\:/Users/Johannes D Halvorsen/OneDrive - USN/USN/MOB3000/AndroidStudioProjects/TestProsjekt2/app/src/main/res/layout/fragment_history.xml" value="0.2223731884057971" />
-        <entry key="..\:/Users/Johannes D Halvorsen/OneDrive - USN/USN/MOB3000/AndroidStudioProjects/TestProsjekt2/app/src/main/res/layout/history_list_item.xml" value="0.5" />
         <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/fragment_dashboard.xml" value="0.2695035460992908" />
-        <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/fragment_history.xml" value="0.125" />
+        <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/fragment_history.xml" value="0.5541666666666667" />
+        <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/fragment_history_info.xml" value="0.30842391304347827" />
         <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/fragment_notifications.xml" value="0.125" />
         <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/fragment_record.xml" value="0.2695035460992908" />
+        <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/history_list_item.xml" value="0.5541666666666667" />
+        <entry key="..\:/tmp/TestProsjekt2/app/src/main/res/layout/record_list_item.xml" value="0.5541666666666667" />
       </map>
     </option>
   </component>
