@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="historyViewModel"
             type="no.usn.ruud.testprosjekt2.ui.history.HistoryViewModel" />
@@ -16,9 +17,9 @@
         tools:context=".ui.history.HistoryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/workoutHistoryRecylerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/workoutHistoryRecylerView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

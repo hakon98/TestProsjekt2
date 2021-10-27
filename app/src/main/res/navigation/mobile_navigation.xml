@@ -27,7 +27,6 @@
         android:id="@+id/navigation_history_info"
         android:name="no.usn.ruud.testprosjekt2.ui.history.HistoryInfoFragment"
         android:label="HistoryInfo"
-        tools:layout="@layout/fragment_history_info"
-        />
+        tools:layout="@layout/fragment_history_info" />
 
 </navigation>

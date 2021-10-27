@@ -16,13 +16,13 @@ import java.io.IOException
 class FitGuuyDatabaseTest {
 
     private lateinit var workoutDatabaseDao: WorkoutDatabaseDao
-    private lateinit var db : FitGuuyDatabase
+    private lateinit var db: FitGuuyDatabase
 
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(context, FitGuuyDatabase::class.java).
-        allowMainThreadQueries().build()
+        db = Room.inMemoryDatabaseBuilder(context, FitGuuyDatabase::class.java)
+            .allowMainThreadQueries().build()
         workoutDatabaseDao = db.workoutDatabaseDao
     }
 
@@ -41,7 +41,6 @@ class FitGuuyDatabaseTest {
         val lastWorkout = workoutDatabaseDao.getLast()
 
     }
-
 
 
 }
