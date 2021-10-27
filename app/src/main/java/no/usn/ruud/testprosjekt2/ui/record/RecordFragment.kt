@@ -74,15 +74,21 @@ class RecordFragment : Fragment() {
         }
         binding.saveButton.setOnClickListener{
             Log.i("RecordFragment", "Button clicklistner run")
-            Log.i("RecordFragment", "retreving children ${linLayoutMgr.getChildAt(1)?.findViewById<RelativeLayout>(R.id.relLayoutRecord)?.findViewById<TextView>(R.id.txtExerciseName)?.text}")
-            Log.i("RecordFragment", "retreving childrenCount ${linLayoutMgr.childCount}")
-            val childCount = linLayoutMgr.childCount
-            var i = 0;
+            //Log.i("RecordFragment", "retreving children ${linLayoutMgr.getChildAt(0)?.findViewById<RelativeLayout>(R.id.relLayoutRecord)?.findViewById<TextView>(R.id.txtExerciseName)?.text}")
+            //Log.i("RecordFragment", "retreving childrenCount ${linLayoutMgr.childCount}")
+            //val childCount = linLayoutMgr.childCount
+            var i = 0
             var childViewList: MutableList<RelativeLayout> = mutableListOf()
-            while (i<childCount) {
-                Log.i("RecordFragment", linLayoutMgr.getChildAt(i)?.findViewById<RelativeLayout>(R.id.relLayoutRecord).toString())
-                childViewList.add(linLayoutMgr.getChildAt(i++)!!.findViewById<RelativeLayout>(R.id.relLayoutRecord))
-
+            while (i<6) {
+                //Log.i("RecordFragment", linLayoutMgr.getChildAt(i)?.findViewById<RelativeLayout>(R.id.relLayoutRecord).toString())
+                childViewList.add(linLayoutMgr.getChildAt(i)!!.findViewById<RelativeLayout>(R.id.relLayoutRecord))
+                Log.i("RecordFragment",
+                    "Løkke: ${
+                        linLayoutMgr.getChildAt(i)
+                            ?.findViewById<RelativeLayout>(R.id.relLayoutRecord)
+                            ?.findViewById<TextView>(R.id.txtExerciseName)?.text.toString()
+                    }")
+                i++
             }
             Log.i("RecordFragment", childViewList.toString())
             //TODO(Håkon) Legg inn i ViewModel
@@ -121,19 +127,19 @@ class RecordFragment : Fragment() {
         newWorkout.weight1 = list[0].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
         newWorkout.type2 = list[1].findViewById<TextView>(R.id.txtExerciseName).text.toString()
         newWorkout.reps2 = list[1].findViewById<TextView>(R.id.figure_1).text.toString()
-        newWorkout.weight2 = list[1].findViewById<TextView>(R.id.txtCurrentWeight).toString()
-        newWorkout.type3 = list[2].findViewById<TextView>(R.id.txtExerciseName).toString()
-        newWorkout.reps3 = list[2].findViewById<TextView>(R.id.figure_1).toString()
-        newWorkout.weight3 = list[2].findViewById<TextView>(R.id.txtCurrentWeight).toString()
-        newWorkout.type4 = list[3].findViewById<TextView>(R.id.txtExerciseName).toString()
-        newWorkout.reps4 = list[3].findViewById<TextView>(R.id.figure_1).toString()
-        newWorkout.weight4 = list[3].findViewById<TextView>(R.id.txtCurrentWeight).toString()
-        newWorkout.type5 = list[4].findViewById<TextView>(R.id.txtExerciseName).toString()
-        newWorkout.reps5 = list[4].findViewById<TextView>(R.id.figure_1).toString()
-        newWorkout.weight5 = list[4].findViewById<TextView>(R.id.txtCurrentWeight).toString()
-        //newWorkout.type6 = list[5].findViewById<TextView>(R.id.txtExerciseName).toString()
-        //newWorkout.reps6 = list[5].findViewById<TextView>(R.id.figure_1).toString()
-        //newWorkout.weight6 = list[5].findViewById<TextView>(R.id.txtCurrentWeight).toString()
+        newWorkout.weight2 = list[1].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        newWorkout.type3 = list[2].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        newWorkout.reps3 = list[2].findViewById<TextView>(R.id.figure_1).text.toString()
+        newWorkout.weight3 = list[2].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        newWorkout.type4 = list[3].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        newWorkout.reps4 = list[3].findViewById<TextView>(R.id.figure_1).text.toString()
+        newWorkout.weight4 = list[3].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        newWorkout.type5 = list[4].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        newWorkout.reps5 = list[4].findViewById<TextView>(R.id.figure_1).text.toString()
+        newWorkout.weight5 = list[4].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        //newWorkout.type6 = list[5].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        //newWorkout.reps6 = list[5].findViewById<TextView>(R.id.figure_1).text.toString()
+        //newWorkout.weight6 = list[5].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
         return newWorkout
     }
     companion object {
