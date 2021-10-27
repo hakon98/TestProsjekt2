@@ -73,10 +73,20 @@ class RecordFragment : Fragment() {
             adapter = recordAdapter
         }
         binding.saveButton.setOnClickListener{
+            //val exerciseCount = recordAdapter.listItemsHolder.size
+            var i = 0
+            while (i<6) {
+                Log.i("RecordFragment",
+                    "Løkke: ${
+                        recordAdapter.listItemsHolder[i].exerciseName.text.toString()
+                    }")
+                i++
+            }
             Log.i("RecordFragment", "Button clicklistner run")
             //Log.i("RecordFragment", "retreving children ${linLayoutMgr.getChildAt(0)?.findViewById<RelativeLayout>(R.id.relLayoutRecord)?.findViewById<TextView>(R.id.txtExerciseName)?.text}")
             //Log.i("RecordFragment", "retreving childrenCount ${linLayoutMgr.childCount}")
             //val childCount = linLayoutMgr.childCount
+            /*
             var i = 0
             var childViewList: MutableList<RelativeLayout> = mutableListOf()
             while (i<6) {
@@ -91,12 +101,17 @@ class RecordFragment : Fragment() {
                 i++
             }
             Log.i("RecordFragment", childViewList.toString())
+
+             */
             //TODO(Håkon) Legg inn i ViewModel
             dataSource.let { database ->
                 scope.launch {
-                    dataSource.insert(getDataFromView(childViewList))
+                    //dataSource.insert(getDataFromView(childViewList))
+                    dataSource.insert(getDataFromItemViewHolder(recordAdapter.listItemsHolder))
                 }
             }
+
+
 
         }
 
@@ -117,7 +132,29 @@ class RecordFragment : Fragment() {
 
 
     }
-
+    fun getDataFromItemViewHolder(list:MutableList<RecordListAdapter.RecordViewHolder>) : WorkoutInDb {
+        Log.i("RecordFragment", "getDataFromItemViewHolder kjørt. lista:  ${list.toString()}")
+        val newWorkout = WorkoutInDb()
+        newWorkout.type1 = list[0].exerciseName.text.toString()
+        newWorkout.reps1 = list[0].button1.text.toString()
+        newWorkout.weight1 = list[0].currentWeight.text.toString()
+        newWorkout.type2 = list[1].exerciseName.text.toString()
+        newWorkout.reps2 = list[1].button1.text.toString()
+        newWorkout.weight2 = list[1].currentWeight.text.toString()
+        newWorkout.type3 = list[2].exerciseName.text.toString()
+        newWorkout.reps3 = list[2].button1.text.toString()
+        newWorkout.weight3 = list[2].currentWeight.text.toString()
+        newWorkout.type4 = list[3].exerciseName.text.toString()
+        newWorkout.reps4 = list[3].button1.text.toString()
+        newWorkout.weight4 = list[3].currentWeight.text.toString()
+        newWorkout.type5 = list[4].exerciseName.text.toString()
+        newWorkout.reps5 = list[4].button1.text.toString()
+        newWorkout.weight5 = list[4].currentWeight.text.toString()
+        newWorkout.type6 = list[5].exerciseName.text.toString()
+        newWorkout.reps6 = list[5].button1.text.toString()
+        newWorkout.weight6 = list[5].currentWeight.text.toString()
+        return newWorkout
+    }
     fun getDataFromView(list:MutableList<RelativeLayout>) : WorkoutInDb {
         //TODO(Alle): Lag en metode som henter reps fra alle knappene og putter det i en string.
         Log.i("RecordFragment", "getDataFromView kjørt. lista:  ${list[0].findViewById<TextView>(R.id.txtExerciseName).toString()}")

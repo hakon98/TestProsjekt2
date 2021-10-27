@@ -3,6 +3,7 @@ package no.usn.ruud.testprosjekt2.ui.record
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,6 +15,7 @@ import no.usn.ruud.testprosjekt2.databinding.RecordListItemBinding
 class RecordListAdapter: ListAdapter<Exercise, RecordListAdapter.RecordViewHolder>(WorkoutInDbDiffCallback()) {
 
     var lastWorkout: WorkoutInDb? = WorkoutInDb()
+    var listItemsHolder: MutableList<RecordViewHolder> = arrayListOf()
 
     class WorkoutInDbDiffCallback : DiffUtil.ItemCallback<Exercise>() {
         override fun areItemsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
@@ -35,28 +37,34 @@ class RecordListAdapter: ListAdapter<Exercise, RecordListAdapter.RecordViewHolde
 
     override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
         val exercise = getItem(position)
-        Log.i("RecordListAdapter",lastWorkout.toString())
+        listItemsHolder.add(holder)
+
         //holder.
         holder.lastWeight.text = lastWorkout!!.weight1
-        holder.name.text = exercise.name
+        holder.exerciseName.text = exercise.name
+        Log.i("RecordListAdapter", "OnBindView: ${ holder.exerciseName.text.toString() }")
+        listItemsHolder.add(holder)
     }
     
     class RecordViewHolder(binding: RecordListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val lastWeight: TextView
-        val name: TextView
-
+        val exerciseName: TextView
+        val currentWeight: TextView
+        val button1: Button
 
         init {
+            exerciseName = binding.txtExerciseName
             lastWeight = binding.txtLastWeight
-            name = binding.txtExerciseName
-
+            currentWeight = binding.txtCurrentWeight
+            button1 = binding.figure1
         }
 
         companion object {
             fun from(parent: ViewGroup): RecordViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = RecordListItemBinding.inflate(layoutInflater, parent, false)
+
                 return RecordViewHolder(binding)
             }
         }
