@@ -24,7 +24,7 @@ class RecordViewModel (dataSource: WorkoutDatabaseDao,
 
     private fun initializeWorkoutList() {
         viewModelScope.launch {
-            //lastWorkout.value = getLastWorkout()
+            lastWorkout.value = getLastWorkout()
             exercise.value = getWorkoutFromDatabase()
             printExercisePlan()
 
