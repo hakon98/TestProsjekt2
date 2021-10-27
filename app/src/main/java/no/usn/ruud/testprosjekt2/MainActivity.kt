@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         var numberOfReps : Int = numberString.toInt() -1
         if(numberOfReps>=0){
             btnView.text =numberOfReps.toString()
+            btnView.setBackgroundColor(R.style.CardView_Dark)
             btnView.setBackgroundResource(R.drawable.roundbuttonselected)
         }
     }

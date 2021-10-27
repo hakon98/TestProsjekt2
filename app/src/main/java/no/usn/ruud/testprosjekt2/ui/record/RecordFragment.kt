@@ -71,6 +71,21 @@ class RecordFragment : Fragment() {
             layoutManager = linLayoutMgr
             adapter = recordAdapter
         }
+        binding.saveButton.setOnClickListener{
+            val childCount = binding.recordRecylerView.getChildCount()
+            var i = 0;
+            var childViewList: MutableList<View> = mutableListOf()
+            while (i<childCount) {
+                childViewList.add(binding.recordRecylerView.getChildAt(i))
+            }
+            //TODO(Håkon) Legg inn i ViewModel
+            dataSource.let { database ->
+                scope.launch {
+                    dataSource.insert(getDataFromView(childViewList))
+                }
+            }
+
+        }
 
         /*
         recordViewModel._workout.observe(viewLifecycleOwner, Observer {
@@ -85,10 +100,34 @@ class RecordFragment : Fragment() {
                 //deleteAll(database)
                 //populateDatabase(database)
             }
-            return root
         }
+        return root
 
 
+    }
+
+    fun getDataFromView(list:MutableList<View>) : WorkoutInDb {
+        //TODO(Alle): Lag en metode som henter reps fra alle knappene og putter det i en string.
+        val newWorkout = WorkoutInDb()
+        newWorkout.type1 = list[1].findViewById<TextView>(R.id.txtExerciseName).toString()
+        newWorkout.reps1 = list[1].findViewById<TextView>(R.id.figure_1).toString()
+        newWorkout.weight1 = list[1].findViewById<TextView>(R.id.txtCurrentWeight).toString()
+        newWorkout.type2 = list[2].findViewById<TextView>(R.id.txtExerciseName).toString()
+        newWorkout.reps2 = list[2].findViewById<TextView>(R.id.figure_1).toString()
+        newWorkout.weight2 = list[2].findViewById<TextView>(R.id.txtCurrentWeight).toString()
+        newWorkout.type3 = list[3].findViewById<TextView>(R.id.txtExerciseName).toString()
+        newWorkout.reps3 = list[3].findViewById<TextView>(R.id.figure_1).toString()
+        newWorkout.weight3 = list[3].findViewById<TextView>(R.id.txtCurrentWeight).toString()
+        newWorkout.type4 = list[4].findViewById<TextView>(R.id.txtExerciseName).toString()
+        newWorkout.reps4 = list[4].findViewById<TextView>(R.id.figure_1).toString()
+        newWorkout.weight4 = list[4].findViewById<TextView>(R.id.txtCurrentWeight).toString()
+        newWorkout.type5 = list[5].findViewById<TextView>(R.id.txtExerciseName).toString()
+        newWorkout.reps5 = list[5].findViewById<TextView>(R.id.figure_1).toString()
+        newWorkout.weight5 = list[5].findViewById<TextView>(R.id.txtCurrentWeight).toString()
+        newWorkout.type6 = list[6].findViewById<TextView>(R.id.txtExerciseName).toString()
+        newWorkout.reps6 = list[6].findViewById<TextView>(R.id.figure_1).toString()
+        newWorkout.weight6 = list[6].findViewById<TextView>(R.id.txtCurrentWeight).toString()
+        return newWorkout
     }
     companion object {
         @JvmStatic
@@ -221,14 +260,6 @@ class RecordFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-//        recordViewModel =
-//            ViewModelProvider(this).get(RecordViewModel::class.java)
-//        recordViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -236,3 +267,9 @@ class RecordFragment : Fragment() {
     }
 
 }
+
+private fun <E> List<E>.add(childAt: E) {
+
+}
+
+

@@ -39,6 +39,7 @@ class RecordListAdapter: ListAdapter<Exercise, RecordListAdapter.RecordViewHolde
     override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
         val mWorkout = getItem(position)
         Log.i("RecordListAdapter",lastWorkout.toString())
+        //holder.
         holder.lastWeight.text = lastWorkout!!.weight1
         holder.name.text = mWorkout.name
     }
