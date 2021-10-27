@@ -4,15 +4,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import no.usn.ruud.testprosjekt2.database.Exercise
 import no.usn.ruud.testprosjekt2.database.WorkoutInDb
-import no.usn.ruud.testprosjekt2.databinding.HistoryListItemBinding
 import no.usn.ruud.testprosjekt2.databinding.RecordListItemBinding
-import no.usn.ruud.testprosjekt2.ui.history.HistoryListAdapter
 
 class RecordListAdapter: ListAdapter<Exercise, RecordListAdapter.RecordViewHolder>(WorkoutInDbDiffCallback()) {
 
@@ -37,11 +34,11 @@ class RecordListAdapter: ListAdapter<Exercise, RecordListAdapter.RecordViewHolde
     }
 
     override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
-        val mWorkout = getItem(position)
+        val exercise = getItem(position)
         Log.i("RecordListAdapter",lastWorkout.toString())
         //holder.
         holder.lastWeight.text = lastWorkout!!.weight1
-        holder.name.text = mWorkout.name
+        holder.name.text = exercise.name
     }
     
     class RecordViewHolder(binding: RecordListItemBinding) : RecyclerView.ViewHolder(binding.root) {
