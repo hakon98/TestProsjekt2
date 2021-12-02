@@ -5,18 +5,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import no.usn.ruud.testprosjekt2.R
+import no.usn.ruud.testprosjekt2.database.Exercise
 import no.usn.ruud.testprosjekt2.database.FitGuuyDatabase
+import no.usn.ruud.testprosjekt2.database.WorkoutDatabaseDao
 import no.usn.ruud.testprosjekt2.database.WorkoutInDb
-import no.usn.ruud.testprosjekt2.database.database.Exercise
-import no.usn.ruud.testprosjekt2.database.database.WorkoutDatabaseDao
 import no.usn.ruud.testprosjekt2.databinding.FragmentRecordBinding
 
 class RecordFragment : Fragment() {
@@ -32,6 +35,8 @@ class RecordFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     lateinit var textView: TextView
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,16 +47,15 @@ class RecordFragment : Fragment() {
 
 
         val scope = viewLifecycleOwner.lifecycleScope
+        val mContext = getActivity()
 
         val application = requireNotNull(this.activity).application
-        val dataSource = FitGuuyDatabase.getInstance(
-            application,
-            viewLifecycleOwner.lifecycleScope
-        ).workoutDatabaseDao
+        val dataSource = FitGuuyDatabase.getInstance( application, viewLifecycleOwner.lifecycleScope).workoutDatabaseDao
 
         recordViewModelFactory = RecordViewModelFactory(dataSource, application)
         recordViewModel =
             ViewModelProvider(this, recordViewModelFactory).get(RecordViewModel::class.java)
+        //  linLayoutMgr.setLayoutManager(new LinearLayoutManager(this));
         linLayoutMgr = LinearLayoutManager(context)
         val recordAdapter = RecordListAdapter()
         binding.recordRecylerView.adapter = recordAdapter
@@ -60,7 +64,7 @@ class RecordFragment : Fragment() {
                 recordAdapter.submitList(it)
             }
         })
-        recordViewModel.lastWorkout.observe(viewLifecycleOwner, Observer {
+        recordViewModel.lastWorkout.observe(viewLifecycleOwner, Observer{
             recordAdapter.lastWorkout = it
         })
         recordRecyclerView = binding.recordRecylerView.apply {
@@ -68,7 +72,37 @@ class RecordFragment : Fragment() {
             layoutManager = linLayoutMgr
             adapter = recordAdapter
         }
-        binding.saveButton.setOnClickListener {
+        binding.saveButton.setOnClickListener{
+            //val exerciseCount = recordAdapter.listItemsHolder.size
+            var i = 0
+            while (i<6) {
+                Log.i("RecordFragment",
+                    "Løkke: ${
+                        recordAdapter.listItemsHolder[i].exerciseName.text.toString()
+                    }")
+                i++
+            }
+            Log.i("RecordFragment", "Button clicklistner run")
+            //Log.i("RecordFragment", "retreving children ${linLayoutMgr.getChildAt(0)?.findViewById<RelativeLayout>(R.id.relLayoutRecord)?.findViewById<TextView>(R.id.txtExerciseName)?.text}")
+            //Log.i("RecordFragment", "retreving childrenCount ${linLayoutMgr.childCount}")
+            //val childCount = linLayoutMgr.childCount
+            /*
+            var i = 0
+            var childViewList: MutableList<RelativeLayout> = mutableListOf()
+            while (i<6) {
+                //Log.i("RecordFragment", linLayoutMgr.getChildAt(i)?.findViewById<RelativeLayout>(R.id.relLayoutRecord).toString())
+                childViewList.add(linLayoutMgr.getChildAt(i)!!.findViewById<RelativeLayout>(R.id.relLayoutRecord))
+                Log.i("RecordFragment",
+                    "Løkke: ${
+                        linLayoutMgr.getChildAt(i)
+                            ?.findViewById<RelativeLayout>(R.id.relLayoutRecord)
+                            ?.findViewById<TextView>(R.id.txtExerciseName)?.text.toString()
+                    }")
+                i++
+            }
+            Log.i("RecordFragment", childViewList.toString())
+
+             */
             //TODO(Håkon) Legg inn i ViewModel
             dataSource.let { database ->
                 scope.launch {
@@ -76,18 +110,30 @@ class RecordFragment : Fragment() {
                     dataSource.insert(getDataFromItemViewHolder(recordAdapter.listItemsHolder))
                 }
             }
-            binding.recordRecylerView.invalidate()
+
+
+
         }
+
+        /*
+        recordViewModel._workout.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                recordAdapter.submitList(List<WorkoutInDb>(it))
+            }
+        })
+
+         */
         dataSource.let { database ->
             scope.launch { //deleteAll(database)
                 //populateDatabase(database)
             }
         }
         return root
-    }
 
-    fun getDataFromItemViewHolder(list: MutableList<RecordListAdapter.RecordViewHolder>): WorkoutInDb {
-        Log.i("RecordFragment", "getDataFromItemViewHolder kjørt. lista:  $list")
+
+    }
+    fun getDataFromItemViewHolder(list:MutableList<RecordListAdapter.RecordViewHolder>) : WorkoutInDb {
+        Log.i("RecordFragment", "getDataFromItemViewHolder kjørt. lista:  ${list.toString()}")
         val newWorkout = WorkoutInDb()
         newWorkout.type1 = list[0].exerciseName.text.toString()
         newWorkout.reps1 = list[0].button1.text.toString()
@@ -109,7 +155,30 @@ class RecordFragment : Fragment() {
         newWorkout.weight6 = list[5].currentWeight.text.toString()
         return newWorkout
     }
-
+    fun getDataFromView(list:MutableList<RelativeLayout>) : WorkoutInDb {
+        //TODO(Alle): Lag en metode som henter reps fra alle knappene og putter det i en string.
+        Log.i("RecordFragment", "getDataFromView kjørt. lista:  ${list[0].findViewById<TextView>(R.id.txtExerciseName).toString()}")
+        val newWorkout = WorkoutInDb()
+        newWorkout.type1 = list[0].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        newWorkout.reps1 = list[0].findViewById<TextView>(R.id.figure_1).text.toString()
+        newWorkout.weight1 = list[0].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        newWorkout.type2 = list[1].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        newWorkout.reps2 = list[1].findViewById<TextView>(R.id.figure_1).text.toString()
+        newWorkout.weight2 = list[1].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        newWorkout.type3 = list[2].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        newWorkout.reps3 = list[2].findViewById<TextView>(R.id.figure_1).text.toString()
+        newWorkout.weight3 = list[2].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        newWorkout.type4 = list[3].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        newWorkout.reps4 = list[3].findViewById<TextView>(R.id.figure_1).text.toString()
+        newWorkout.weight4 = list[3].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        newWorkout.type5 = list[4].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        newWorkout.reps5 = list[4].findViewById<TextView>(R.id.figure_1).text.toString()
+        newWorkout.weight5 = list[4].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        //newWorkout.type6 = list[5].findViewById<TextView>(R.id.txtExerciseName).text.toString()
+        //newWorkout.reps6 = list[5].findViewById<TextView>(R.id.figure_1).text.toString()
+        //newWorkout.weight6 = list[5].findViewById<TextView>(R.id.txtCurrentWeight).text.toString()
+        return newWorkout
+    }
     companion object {
         @JvmStatic
         suspend fun populateDatabase(workoutDatabaseDao: WorkoutDatabaseDao) {
@@ -119,8 +188,7 @@ class RecordFragment : Fragment() {
             //Legg til eksempler på ord
             Log.i("RecordFragment", "populateDatabase kjørt")
             var exercise = Exercise()
-            val exercises =
-                listOf("Benkpress", "Knebøy", "Markløft", "Roing", "Nedtrekk", "Biceps curl")
+            val exercises = listOf("Benkpress","Knebøy","Markløft","Roing","Nedtrekk","Biceps curl")
             exercises.forEach {
                 exercise.partOfName = "default"
                 exercise.name = it
